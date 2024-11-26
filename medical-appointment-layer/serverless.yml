@@ -1,0 +1,19 @@
+service: medical-appointment-layer
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: us-east-1
+  deploymentBucket:
+    name: medical-appointment-layers-mfhs
+layers:
+  dependenciesLayer:
+    path: layer
+    name: medical-appointment-layer
+    description: "Shared Node.js dependencies for medical appointment system"
+    compatibleRuntimes:
+      - nodejs18.x
+    retain: true
+
