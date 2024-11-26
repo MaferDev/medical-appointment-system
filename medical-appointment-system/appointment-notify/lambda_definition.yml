@@ -1,0 +1,18 @@
+appointmentNotify:
+    handler: appointment-notify/src/index.handler
+    name: "appointment-notify-${self:provider.stage}"
+    description: Notificación de citas médicas a los usuarios.
+    package:
+      include:
+      - appointment-notify/**
+    events:
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - PEAppointmentNotifyQueue
+              - Arn
+      - sqs:
+          arn:
+            Fn::GetAtt:
+              - CLAppointmentNotifyQueue
+              - Arn
