@@ -1,10 +1,13 @@
 appointmentNotify:
-    handler: appointment-notify/src/index.handler
+    handler: appointment-notify/dist/index.handler
     name: "appointment-notify-${self:provider.stage}"
     description: Notificación de citas médicas a los usuarios.
     package:
       include:
       - appointment-notify/**
+      exclude:
+      - node_modules/**
+      - ./**.yml
     events:
       - sqs:
           arn:

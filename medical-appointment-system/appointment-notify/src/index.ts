@@ -1,4 +1,4 @@
-module.exports.handler = async (event) => {
+export const handler = async (event: any) => {
   console.log(`EVENT`);
   console.log(event);
   for (const record of event.Records) {

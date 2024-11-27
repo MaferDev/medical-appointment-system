@@ -24,8 +24,6 @@ package:
   individually: true
   exclude:
     - node_modules/**
-    - ./appointment/**
-    - ./appointment-notify/**
     - ./**.sh
     - ./**.yml
     - ./**.json
@@ -34,7 +32,7 @@ plugins:
   - serverless-offline
 
 functions:
-  - ${file(appointment/lambda_definition.yml)}
+  - ${file(appointment-system/lambda_definition.yml)}
   - ${file(appointment-notify/lambda_definition.yml)}
 
 resources:
@@ -89,7 +87,55 @@ resources:
               ProjectionType: ALL
         BillingMode: PAY_PER_REQUEST
 
-    # Agregar las demás tablas de forma similar...
+    DoctorTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: doctor
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: country
+            AttributeType: S
+          - AttributeName: speciality
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: country_speciality__index
+            KeySchema:
+              - AttributeName: country
+                KeyType: HASH
+              - AttributeName: speciality
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
+
+    DoctorAppointmentTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: appointment-doctor
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: doctor
+            AttributeType: S
+          - AttributeName: date
+            AttributeType: S
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: doctor__date__index
+            KeySchema:
+              - AttributeName: doctor
+                KeyType: HASH
+              - AttributeName: date
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        BillingMode: PAY_PER_REQUEST
 
     # Colas SQS
     PEAppointmentNotifyQueue:
@@ -107,4 +153,3 @@ custom:
     desa: desa
     prod: prod
     test: test
-  layer: ${file(config.${opt:stage, self:provider.stage}.yml):layer}
