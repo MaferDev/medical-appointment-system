@@ -3,7 +3,7 @@ appointmentSystem:
     name: "appointment-system-${self:provider.stage}"
     description: Reserva de citas médicas.
     layers:
-      - arn:aws:lambda:us-east-1:332631661714:layer:medical-appointment-layer:4
+      - arn:aws:lambda:us-east-1:332631661714:layer:medical-appointment-layer:5
     package:
       include:
       - appointment-system/**

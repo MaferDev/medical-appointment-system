@@ -7,11 +7,16 @@ import { createResponse } from "../utils/response.helper";
 export const createAppointmentHandler = async (event: any) => {
   try {
     const data = JSON.parse(event.body);
+    console.log(data);
+
+    // const appointementValid: CreateAppointmentDto =
+    //   validateCreateAppointment(data);
+
     const result = await createAppointment(data);
     return createResponse(201, "Appointment created successfully", result);
-  } catch (error) {
+  } catch (error: Error | any) {
     console.error(error);
-    throw error;
+    return createResponse(400, error.message);
   }
 };
 
