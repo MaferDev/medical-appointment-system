@@ -1,5 +1,5 @@
 {
-  "name": "appointment",
+  "name": "appointment-layer",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,9 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "lodash": "^4.17.21"
+    "@types/aws-lambda": "^8.10.0",
+    "aws-sdk": "^2.1692.0",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
   }
 }
